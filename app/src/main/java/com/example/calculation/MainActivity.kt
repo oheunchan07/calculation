@@ -6,12 +6,13 @@ import com.example.calculation.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    var number = 0
     var number1 = 0
+    var number2 = 0
     var sign = ""
     var sign1 = ""
     var signCase = 0
-    var result1 = 0
+    var res = 0
+    var resBool = true
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,182 +21,154 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.button1.setOnClickListener {
-            if (signCase == 0) {
-                number = number * 10 + 1
-                sign = number.toString()
-                binding.num.text = sign.toString()
-            } else {
-                number1 = number1 * 10 + 1
-                sign1 = sign + number1.toString()
-                binding.num.text = sign1.toString()
+        fun cal(num:Int) {
+            when (resBool) {
+                false -> {
+                    number1 = 0
+                    number2 = 0
+                    signCase = 0
+                    resBool = true
+                }true -> null
             }
+            when (signCase){
+                0 -> {
+                    number1 = number1 * 10 + num
+                    sign = number1.toString()
+                    binding.num.text = sign.toString()
+                }else -> {
+                    number2 = number2 * 10 + num
+                    sign1 = sign + number2.toString()
+                    binding.num.text = sign1.toString()
+                }
+            }
+        }
+
+        fun signCase (s:Int) {
+                when {
+                    s == 1 && (resBool == false || number2 == 0) -> sign = number1.toString() + "+"
+                    s == 2 && (resBool == false || number2 == 0)-> sign = number1.toString() + "-"
+                    s == 3 && (resBool == false || number2 == 0)-> sign = number1.toString() + "*"
+                    s == 4 && (resBool == false || number2 == 0)-> sign = number1.toString() + "/"
+                }
+                when {
+                    resBool == false || number2 == 0 -> {
+                        resBool = true
+                        signCase = s
+                        number2 = 0
+                        binding . num . text = sign . toString ()}
+                }
+        }
+
+        binding.button1.setOnClickListener {
+            cal(1)
         }
 
         binding.button2.setOnClickListener {
-            if (signCase == 0) {
-                number = number * 10 + 2
-                sign = number.toString()
-                binding.num.text = sign.toString()
-            } else {
-                number1 = number1 * 10 + 2
-                sign1 = sign + number1.toString()
-                binding.num.text = sign1.toString()
-            }
+            cal(2)
         }
 
         binding.button3.setOnClickListener {
-            if (signCase == 0) {
-                number = number * 10 + 3
-                sign = number.toString()
-                binding.num.text = sign.toString()
-            } else {
-                number1 = number1 * 10 + 3
-                sign1 = sign + number1.toString()
-                binding.num.text = sign1.toString()
-            }
+            cal(3)
         }
 
         binding.button4.setOnClickListener {
-            if (signCase == 0) {
-                number = number * 10 + 4
-                sign = number.toString()
-                binding.num.text = sign.toString()
-            } else {
-                number1 = number1 * 10 + 4
-                sign1 = sign + number1.toString()
-                binding.num.text = sign1.toString()
-            }
+            cal(4)
         }
 
         binding.button5.setOnClickListener {
-            if (signCase == 0) {
-                number = number * 10 + 5
-                sign = number.toString()
-                binding.num.text = sign.toString()
-            } else {
-                number1 = number1 * 10 + 5
-                sign1 = sign + number1.toString()
-                binding.num.text = sign1.toString()
-            }
+            cal(5)
         }
 
         binding.button6.setOnClickListener {
-            if (signCase == 0) {
-                number = number * 10 + 6
-                sign = number.toString()
-                binding.num.text = sign.toString()
-            } else {
-                number1 = number1 * 10 + 6
-                sign1 = sign + number1.toString()
-                binding.num.text = sign1.toString()
-            }
+            cal(6)
         }
 
         binding.button7.setOnClickListener {
-            if (signCase == 0) {
-                number = number * 10 + 7
-                sign = number.toString()
-                binding.num.text = sign.toString()
-            } else {
-                number1 = number1 * 10 + 7
-                sign1 = sign + number1.toString()
-                binding.num.text = sign1.toString()
-            }
+            cal(7)
         }
 
         binding.button8.setOnClickListener {
-            if (signCase == 0) {
-                number = number * 10 + 8
-                sign = number.toString()
-                binding.num.text = sign.toString()
-            } else {
-                number1 = number1 * 10 + 8
-                sign1 = sign + number1.toString()
-                binding.num.text = sign1.toString()
-            }
+            cal(8)
         }
 
         binding.button9.setOnClickListener {
-            if (signCase == 0) {
-                number = number * 10 + 9
-                sign = number.toString()
-                binding.num.text = sign.toString()
-            } else {
-                number1 = number1 * 10 + 9
-                sign1 = sign + number1.toString()
-                binding.num.text = sign1.toString()
-            }
+            cal(9)
         }
 
         binding.button0.setOnClickListener {
-            if (signCase == 0) {
-                number = number * 10
-                sign = number.toString()
-                binding.num.text = sign.toString()
-            } else {
-                number1 = number1 * 10
-                sign1 = sign + number1.toString()
-                binding.num.text = sign1.toString()
+            cal(0)
+        }
+
+        binding.minus.setOnClickListener {
+            when (number2) {
+                0->{
+                    number1 = number1  * -1
+                    sign = number1.toString()
+                    binding.num.text = sign.toString()
+                } else->{
+                    number2 = number2 * -1
+                    sign1 = sign + number2.toString()
+                    binding.num.text = sign1.toString()}
             }
         }
 
         binding.clear.setOnClickListener {
             sign = 0.toString()
-            number = 0
             number1 = 0
+            number2 = 0
             signCase = 0
             binding.num.text = sign.toString()
         }
 
         binding.add.setOnClickListener {
-            if(signCase == 0&&number != 0) {
-            sign = sign +  "+"
-            signCase = 1
-            binding.num.text = sign.toString()
-            }
+            signCase(1)
         }
 
         binding.sub.setOnClickListener {
-            if(signCase == 0&&number != 0) {
-            sign = sign +  "-"
-            signCase = 2
-            binding.num.text = sign.toString()
-            }
+            signCase(2)
         }
 
         binding.mul.setOnClickListener {
-            if (signCase == 0&&number != 0) {
-                sign = sign + "*"
-                signCase = 3
-                binding.num.text = sign.toString()
-            }
+            signCase(3)
         }
 
         binding.div.setOnClickListener {
-            if(signCase == 0 && number != 0) {
-            sign = sign +  "/"
-            signCase = 4
-            binding.num.text = sign.toString()
+            signCase(4)
+        }
+
+        binding.square.setOnClickListener {
+            when (resBool) {
+                false -> {
+                    res = res * res
+                    sign = res.toString()
+                    binding.num.text = sign.toString()
+                } true -> when (signCase) {
+                0 -> {
+                        number1 = number1 * number1
+                        sign = number1.toString()
+                        binding.num.text = sign.toString()
+                    }
+                    else -> {
+                        number2 = number2 * number2
+                        sign1 = sign + number2.toString()
+                        binding.num.text = sign1.toString()
+                    }
+                }
             }
         }
 
         binding.result.setOnClickListener {
-            if(signCase != 0) {
-                if (signCase == 1)
-                    result1 = number + number1
-                if (signCase == 2)
-                    result1 = number - number1
-                if (signCase == 3)
-                    result1 = number * number1
-                if (signCase == 4)
-                    result1 = number / number1
-                binding.num.text = result1.toString()
-                sign = result1.toString()
-                number = result1
-                number1 = 0
-                signCase = 0
+            when(signCase) {
+                1->res = number1 + number2
+                2->res = number1 - number2
+                3->res = number1 * number2
+                4->res = number1 / number2
+                else -> res = number1
             }
+            binding.num.text = res.toString ()
+            sign = res.toString ()
+            number1 = res
+            resBool = false
         }
     }
 }
