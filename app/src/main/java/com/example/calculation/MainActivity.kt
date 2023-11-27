@@ -22,27 +22,38 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         fun num(n:Int) {
+            if(count != 0) {
+                count = 0
+                number2 = 0
+                res = 0
+                sign = "0"
+            }
             if(sign == "0"){
                 number1 = number1 * 10 + n
                 expression = number1.toString()
                 binding.num.text = expression
-            }
-            else {
+            } else {
                 number2 = number2 * 10 + n
-                expression += number2.toString()
+                expression += n.toString()
                 binding.num.text = expression
             }
         }
 
         fun sign(s:Int) {
-            if(sign == "0") {
+            if(count != 0) {
+                count = 0
+                number1 = res
+                res = 0
+                number2 = 0
+            }
+            if(number2 == 0) {
                 when(s) {
                     1->sign = "+"
                     2->sign = "-"
                     3->sign = "*"
                     4->sign = "/"
                 }
-                expression += sign
+                expression = number1.toString() + sign
                 binding.num.text = expression
             }
         }
@@ -90,22 +101,67 @@ class MainActivity : AppCompatActivity() {
         binding.div.setOnClickListener {
             sign(4)
         }
-        binding.result.setOnClickListener {
-            when(sign) {
-                "+" -> res = number1+number2
-                "-" -> res = number1-number2
-                "*" -> res = number1*number2
-                "/" -> res = number1/number2
+
+        binding.minus.setOnClickListener {
+            if(number2 == 0) {
+                number1 = number1 * -1
+                if(sign == "0") {
+                    expression = number1.toString()
+                } else {
+                    expression = number1.toString() + sign
+                }
+            } else {
+                number2 = number2 * -1
+                expression = number1.toString() + sign + number2.toString()
             }
+            binding.num.text = expression
+        }
+
+        binding.square.setOnClickListener {
+            if(number2 == 0) {
+                number1 = number1 * number1
+                if(sign == "0") {
+                    expression = number1.toString()
+                } else {
+                    expression = number1.toString() + sign
+                }
+            } else {
+                number2 = number2 * number2
+                expression = number1.toString() + sign + number2.toString()
+            }
+            binding.num.text = expression
+        }
+
+        binding.result.setOnClickListener {
+            if(count != 0) {
+                when(sign) {
+                    "+" -> res += number2
+                    "-" -> res -= number2
+                    "*" -> res *= number2
+                    "/" -> res /= number2
+                }
+            } else {
+                when(sign) {
+                    "+" -> res = number1+number2
+                    "-" -> res = number1-number2
+                    "*" -> res = number1*number2
+                    "/" -> res = number1/number2
+                }
+            }
+            count++
+
             binding.num.text = res.toString()
+            number1 = 0
+            expression = ""
         }
 
         binding.clear.setOnClickListener {
+            res = 0
+            sign = "0"
+            count = 0
             number1 = 0
             number2 = 0
             expression = ""
-            sign = "0"
-            res = 0
             binding.num.text = number1.toString()
         }
     }
