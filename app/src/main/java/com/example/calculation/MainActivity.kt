@@ -103,33 +103,43 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.minus.setOnClickListener {
-            if(number2 == 0) {
-                number1 = number1 * -1
-                if(sign == "0") {
-                    expression = number1.toString()
+            if(count == 0) {
+                if(number2 == 0) {
+                    number1 = number1 * -1
+                    if(sign == "0") {
+                        expression = number1.toString()
+                    } else {
+                        expression = number1.toString() + sign
+                    }
                 } else {
-                    expression = number1.toString() + sign
+                    number2 = number2 * -1
+                    expression = number1.toString() + sign + number2.toString()
                 }
+                binding.num.text = expression
             } else {
-                number2 = number2 * -1
-                expression = number1.toString() + sign + number2.toString()
+                res = res * -1
+                binding.num.text = res.toString()
             }
-            binding.num.text = expression
         }
 
         binding.square.setOnClickListener {
-            if(number2 == 0) {
-                number1 = number1 * number1
-                if(sign == "0") {
-                    expression = number1.toString()
+            if(count == 0) {
+                if (number2 == 0) {
+                    number1 = number1 * number1
+                    if (sign == "0") {
+                        expression = number1.toString()
+                    } else {
+                        expression = number1.toString() + sign
+                    }
                 } else {
-                    expression = number1.toString() + sign
+                    number2 = number2 * number2
+                    expression = number1.toString() + sign + number2.toString()
                 }
+                binding.num.text = expression
             } else {
-                number2 = number2 * number2
-                expression = number1.toString() + sign + number2.toString()
+                res = res * res
+                binding.num.text = res.toString()
             }
-            binding.num.text = expression
         }
 
         binding.result.setOnClickListener {
